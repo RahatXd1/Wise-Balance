@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="events_page_title">Events | Wise Balance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-orb orb-a" aria-hidden="true"></div>
+  <div class="bg-orb orb-b" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="topbar-main">
+      <div>
+        <h1 data-i18n="events_title">Wise Balance Events</h1>
+        <p data-i18n="events_p">Create, edit, and choose one event for dashboard view.</p>
+      </div>
+      <div class="top-nav-links">
+        <a class="top-home-btn" href="index.html" data-i18n="go_home">Go to Home</a>
+        <a class="top-home-btn" href="dashboard.html" data-i18n="dashboard">Dashboard</a>
+        <div class="lang-selector-container">
+          <svg class="translate-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+          </svg>
+          <select id="lang-select" class="lang-select">
+            <option value="en">English</option>
+            <option value="ja">日本語</option>
+            <option value="bn">বাংলা</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel content single-dashboard">
+      <section class="card">
+        <h2 data-i18n="events_heading">Events</h2>
+        <form id="event-form" class="inline-form">
+          <input id="event-name" type="text" data-i18n-placeholder="new_event_placeholder" placeholder="New event name" maxlength="120" required />
+          <select id="event-currency" style="width: auto; min-width: 110px;" required>
+            <option value="JPY">¥ JPY</option>
+            <option value="USD">$ USD</option>
+            <option value="EUR">€ EUR</option>
+            <option value="BDT">৳ BDT</option>
+          </select>
+          <button type="submit" data-i18n="add">Add</button>
+        </form>
+        <ul id="event-list" class="list"></ul>
+      </section>
+    </section>
+  </main>
+
+  <!-- Custom Modal: Edit Event -->
+  <div id="modal-edit-event" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 data-i18n="edit_event_modal_title">Edit Event Name</h3>
+      <div class="modal-body">
+        <input id="edit-event-input" type="text" maxlength="120" />
+      </div>
+      <div class="modal-footer">
+        <button id="modal-edit-cancel" class="btn-secondary" data-i18n="cancel">Cancel</button>
+        <button id="modal-edit-save" class="btn-primary" data-i18n="save">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Modal: Delete Event -->
+  <div id="modal-delete-event" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 data-i18n="delete_event_modal_title">Delete Event</h3>
+      <p class="modal-text" data-i18n="confirm_delete_event">Delete this event and all related data?</p>
+      <div class="modal-footer">
+        <button id="modal-delete-cancel" class="btn-secondary" data-i18n="cancel">Cancel</button>
+        <button id="modal-delete-confirm" class="btn-danger" data-i18n="delete">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="events.js"></script>
+</body>
+</html>

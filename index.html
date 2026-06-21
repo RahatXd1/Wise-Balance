@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="welcome_page_title">Welcome | Wise Balance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #020c1b;
+      --text: #ccd6f6;
+      --muted: #8892b0;
+      --brand: #7cdc8f;
+      --brand-strong: #59b26d;
+      --line: rgba(255, 255, 255, 0.1);
+      --panel: rgba(10, 25, 47, 0.7);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", "IBM Plex Sans JP", "Space Grotesk", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 20%, rgba(24, 60, 180, 0.22) 0%, transparent 45%),
+        radial-gradient(circle at 95% 15%, rgba(124, 220, 143, 0.1) 0%, transparent 40%),
+        var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0;
+    }
+
+    /* Fixed Top Glassmorphic Bar for Language Switcher */
+    .topbar {
+      width: 100%;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      background: rgba(10, 25, 47, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .lang-selector-container {
+      display: inline-flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .lang-select {
+      background: rgba(10, 25, 47, 0.85);
+      border: 1px solid var(--line);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 6px 12px 6px 30px;
+      font-weight: 500;
+      cursor: pointer;
+      outline: none;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .translate-icon {
+      position: absolute;
+      left: 10px;
+      width: 14px;
+      height: 14px;
+      color: var(--brand);
+      pointer-events: none;
+    }
+
+    .lang-select:hover {
+      border-color: var(--brand);
+      background-color: rgba(124, 220, 143, 0.05);
+    }
+
+    .lang-select option {
+      background: #020c1b;
+      color: var(--text);
+    }
+
+    .hero-container {
+      flex: 1;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      width: 100%;
+    }
+
+    .hero {
+      width: min(760px, 100%);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--panel);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: clamp(24px, 5vw, 44px);
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.35);
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(2rem, 6vw, 3.4rem);
+      line-height: 1.1;
+      letter-spacing: 0.4px;
+      color: #ffffff;
+    }
+
+    p {
+      margin: 14px auto 0;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.6;
+      font-size: clamp(1rem, 2.8vw, 1.06rem);
+    }
+
+    .cta {
+      margin-top: 26px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      background: var(--brand);
+      color: #020c1b;
+      border-radius: 12px;
+      padding: 12px 20px;
+      font-weight: 700;
+      font-size: 1rem;
+      border: 0;
+      min-width: 180px;
+      transition: all 0.2s;
+    }
+
+    .cta:hover {
+      transform: translateY(-1px);
+      background: var(--brand-strong);
+      box-shadow: 0 4px 12px rgba(124, 220, 143, 0.2);
+    }
+
+    .sub {
+      display: block;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="lang-selector-container">
+      <svg class="translate-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+      </svg>
+      <select id="lang-select" class="lang-select">
+        <option value="en">English</option>
+        <option value="ja">日本語</option>
+        <option value="bn">বাংলা</option>
+      </select>
+    </div>
+  </header>
+
+  <div class="hero-container">
+    <main class="hero">
+      <h1 data-i18n="welcome_title">Welcome to Wise Balance</h1>
+      <p data-i18n="welcome_p">Split trip and group expenses quickly, track who owes whom, and settle in installments with clear live balances.</p>
+      <a class="cta" href="events.html" data-i18n="welcome_cta">Start Wise Balance</a>
+      <span class="sub" data-i18n="welcome_sub">Group Financial Analytics & Ledger</span>
+    </main>
+  </div>
+
+  <script>
+    const translations = {
+      en: {
+        welcome_page_title: "Welcome | Wise Balance",
+        welcome_title: "Welcome to Wise Balance",
+        welcome_p: "Split trip and group expenses quickly, track who owes whom, and settle in installments with clear live balances.",
+        welcome_cta: "Start Wise Balance",
+        welcome_sub: "Group Financial Analytics & Ledger"
+      },
+      ja: {
+        welcome_page_title: "ようこそ | Wise Balance",
+        welcome_title: "Wise Balance へようこそ",
+        welcome_p: "旅行やイベントの費用を簡単に割り勘し、誰が誰にいくら借りているかを追跡、クリアなリアルタイム残高で清算できます。",
+        welcome_cta: "Wise Balance を始める",
+        welcome_sub: "グループ経費分析と集計台帳"
+      },
+      bn: {
+        welcome_page_title: "স্বাগতম | Wise Balance",
+        welcome_title: "Wise Balance-এ আপনাকে স্বাগতম",
+        welcome_p: "ভ্রমণ এবং গ্রুপ খরচের সহজ হিসাব করুন, কে কত পাবে বা দেবে তা ট্র্যাক করুন এবং সহজ কিস্তিতে সরাসরি লাইভ ব্যালেন্স পরিশোধ করুন।",
+        welcome_cta: "Wise Balance শুরু করুন",
+        welcome_sub: "গ্রুপ ফাইন্যান্সিয়াল অ্যানালিটিক্স এবং লেজার"
+      }
+    };
+
+    function updatePageLanguage(lang) {
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (translations[lang] && translations[lang][key]) {
+          el.textContent = translations[lang][key];
+        }
+      });
+      document.title = translations[lang]["welcome_page_title"];
+      document.documentElement.lang = lang;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const langSelect = document.getElementById("lang-select");
+      let currentLang = localStorage.getItem("wisebalance.lang") || "en";
+      langSelect.value = currentLang;
+      updatePageLanguage(currentLang);
+
+      langSelect.addEventListener("change", (e) => {
+        const selected = e.target.value;
+        localStorage.setItem("wisebalance.lang", selected);
+        updatePageLanguage(selected);
+      });
+    });
+  </script>
+</body>
+</html>

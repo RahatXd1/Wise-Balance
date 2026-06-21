@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="dashboard_page_title">Wise Balance - Split Smart</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-orb orb-a" aria-hidden="true"></div>
+  <div class="bg-orb orb-b" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="topbar-main">
+      <div>
+        <h1 data-i18n="dashboard_title">Wise Balance</h1>
+        <p data-i18n="dashboard_p">Fast expense setup for trips and events</p>
+      </div>
+      <div class="top-nav-links">
+        <a class="top-home-btn" href="index.html" data-i18n="go_home">Go to Home</a>
+        <a class="top-home-btn" href="events.html" data-i18n="events_nav">Events</a>
+        <div class="lang-selector-container">
+          <svg class="translate-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+          </svg>
+          <select id="lang-select" class="lang-select">
+            <option value="en">English</option>
+            <option value="ja">日本語</option>
+            <option value="bn">বাংলা</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel content single-dashboard">
+      <div id="no-event-message" class="chart-empty hidden" data-i18n="no_event_selected">
+        No event selected. Open Events page and choose one.
+      </div>
+      <div id="event-view" class="hidden">
+        <header class="event-header dashboard-head">
+          <div>
+            <h2 id="event-title" style="margin: 0; font-family: 'Space Grotesk', sans-serif; margin-bottom: 4px;"></h2>
+            <p id="event-subtitle" data-i18n="event_subtitle">Track expenses and live balances in one place.</p>
+          </div>
+          <div class="head-right">
+            <span class="tag" id="dashboard-total">Total Expense: ¥0</span>
+          </div>
+          <div class="collector-block">
+            <label for="viewer-member-select" data-i18n="view_as">View as</label>
+            <select id="viewer-member-select">
+              <option value="" data-i18n="all_members">All members</option>
+            </select>
+          </div>
+          <div class="collector-block hidden">
+            <label for="collector-select" data-i18n="collector">Collector</label>
+            <select id="collector-select"></select>
+          </div>
+        </header>
+
+        <section class="card hero-card">
+          <div>
+            <h3 id="hero-event-name" data-i18n="event_overview">Event Overview</h3>
+            <p class="subtext" id="hero-member-count">0 members</p>
+            <p class="hero-total" id="hero-total">¥0</p>
+          </div>
+          <div>
+            <p class="subtext" data-i18n="members_sub">Members</p>
+            <p class="hero-members" id="hero-members">No members yet</p>
+          </div>
+        </section>
+
+        <section class="grid-two">
+          <article class="card">
+            <details class="collapse-toggle">
+              <summary data-i18n="members_opt">Members (optional)</summary>
+              <p class="subtext" data-i18n="members_opt_p">Keep this collapsed for a cleaner dashboard. Open only when you need to edit members.</p>
+              <h3 data-i18n="manage_members">Manage Members</h3>
+              <form id="member-form" class="inline-form">
+                <input id="member-name" type="text" data-i18n-placeholder="member_name_placeholder" placeholder="Member name" maxlength="30" required />
+                <button type="submit" data-i18n="add">Add</button>
+              </form>
+              <ul id="member-list" class="list"></ul>
+            </details>
+          </article>
+
+          <article class="card">
+            <details class="collapse-toggle">
+              <summary data-i18n="categories_opt">Categories (optional)</summary>
+              <p class="subtext" data-i18n="categories_opt_p">Keep this collapsed for a cleaner dashboard. Open only when you need to edit categories.</p>
+              <div class="section-head">
+                <h3 data-i18n="manage_categories">Manage Categories</h3>
+                <button type="button" id="use-default-categories" class="ghost" data-i18n="use_defaults">Use Defaults</button>
+              </div>
+              <form id="category-form" class="inline-form">
+                <input id="category-name" type="text" data-i18n-placeholder="category_name_placeholder" placeholder="Category name" maxlength="30" required />
+                <button type="submit" data-i18n="add">Add</button>
+              </form>
+              <ul id="category-list" class="list"></ul>
+            </details>
+          </article>
+        </section>
+
+        <section class="grid-two mt-16">
+          <article class="card">
+            <h3 data-i18n="add_expense">Add Expense</h3>
+            <form id="expense-form" class="expense-form">
+              <p class="subtext" data-i18n="add_expense_p">Enter the total once, then assign shares to members. Remaining must be 0.</p>
+              <div class="form-grid">
+                <label>
+                  <span data-i18n="amount_jpy">Amount (JPY)</span>
+                  <input id="expense-amount" type="number" min="1" step="1" placeholder="5000" required />
+                </label>
+                <label>
+                  <span data-i18n="paid_by">Paid by</span>
+                  <select id="expense-paid-by" required></select>
+                </label>
+              </div>
+
+              <div class="form-grid">
+                <label>
+                  <span data-i18n="category">Category</span>
+                  <select id="expense-category"></select>
+                </label>
+                <label>
+                  <span data-i18n="note">Note</span>
+                  <input id="expense-note" type="text" maxlength="80" data-i18n-placeholder="note_placeholder" placeholder="Dinner, Taxi, Hotel" />
+                </label>
+              </div>
+
+              <div class="assign-header">
+                <h4 data-i18n="assign_to_members">Assign Amount to Members</h4>
+                <div class="quick-select">
+                  <button type="button" id="select-all-btn" class="ghost-sm" data-i18n="select_all">Select All</button>
+                  <button type="button" id="deselect-all-btn" class="ghost-sm" data-i18n="deselect_all">Deselect All</button>
+                  <button type="button" id="split-equal-btn" class="ghost" data-i18n="split_equal">Split Equal</button>
+                </div>
+              </div>
+              <div class="expense-stats" id="expense-stats">
+                <span><span data-i18n="amount_label">Amount:</span> <strong id="stat-total">¥0</strong></span>
+                <span><span data-i18n="assigned_label">Assigned:</span> <strong id="stat-assigned">¥0</strong></span>
+                <span><span data-i18n="remaining_label">Remaining:</span> <strong id="stat-remaining">¥0</strong></span>
+              </div>
+              <div id="assignment-list" class="assign-list"></div>
+
+              <p id="expense-hint" class="hint"></p>
+              <div class="form-actions">
+                <button type="submit" id="expense-submit-btn" data-i18n="save_expense">Save Expense</button>
+                <button type="button" id="expense-cancel-edit" class="ghost hidden" data-i18n="cancel_edit">Cancel Edit</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="card">
+            <h3 data-i18n="expenses_title">Expenses</h3>
+            <ul id="expense-list" class="list"></ul>
+          </article>
+        </section>
+
+        <section class="card mt-16">
+          <h3 data-i18n="expense_snapshot">Expense Snapshot</h3>
+          <p class="subtext" data-i18n="expense_snapshot_p">Category, payer, and trend analytics for this event.</p>
+          <div class="snapshot-shell" id="expense-snapshot-shell">
+            <div class="snapshot-metrics" id="snapshot-metrics"></div>
+            <div class="snapshot-strip-wrap" id="snapshot-strip-wrap"></div>
+            <div class="snapshot-bars" id="expense-chart-list"></div>
+            <div class="snapshot-legend" id="snapshot-legend"></div>
+            <div class="snapshot-secondary">
+              <article class="snapshot-panel">
+                <h4 data-i18n="daily_trend">Daily Trend (Recent)</h4>
+                <div id="snapshot-trend" class="trend-list"></div>
+              </article>
+              <article class="snapshot-panel">
+                <h4 data-i18n="insights">Insights</h4>
+                <ul id="snapshot-insights" class="insight-list"></ul>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="card mt-16">
+          <h3 data-i18n="balances_and_dues">Balances and Dues</h3>
+          <p class="subtext" data-i18n="balances_and_dues_p">See who needs to pay and who receives. Installments reduce remaining dues instantly.</p>
+          <div class="table-grid">
+            <div>
+              <h4 data-i18n="breakdown_title">Per user breakdown</h4>
+              <div class="table-scroll">
+                <table class="dash-table">
+                  <thead>
+                    <tr>
+                      <th data-i18n="user_th">User</th>
+                      <th data-i18n="topay_th">To Pay</th>
+                      <th data-i18n="toreceive_th">To Receive</th>
+                    </tr>
+                  </thead>
+                  <tbody id="balance-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+            <div>
+              <h4 data-i18n="who_pays_title">Who pays whom?</h4>
+              <div class="table-scroll">
+                <table class="dash-table">
+                  <thead>
+                    <tr>
+                      <th data-i18n="from_th">From</th>
+                      <th data-i18n="to_th">To</th>
+                      <th data-i18n="total_th">Total</th>
+                      <th data-i18n="paid_th">Paid</th>
+                      <th data-i18n="remaining_th">Remaining</th>
+                      <th data-i18n="installment_th">Installment</th>
+                    </tr>
+                  </thead>
+                  <tbody id="owes-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card mt-16">
+          <h3 data-i18n="history_title">Transaction History</h3>
+          <p class="subtext" data-i18n="history_p">All expenses and installment payments with date/time.</p>
+          <div class="table-scroll">
+            <table class="dash-table history-table">
+              <thead>
+                <tr>
+                  <th data-i18n="date_th">Date</th>
+                  <th data-i18n="type_th">Type</th>
+                  <th data-i18n="from_th">From</th>
+                  <th data-i18n="to_th">To</th>
+                  <th data-i18n="category_th">Category</th>
+                  <th data-i18n="note_th">Note</th>
+                  <th data-i18n="amount_th">Amount</th>
+                </tr>
+              </thead>
+              <tbody id="transaction-history-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <!-- Custom Modal: Edit Member -->
+  <div id="modal-edit-member" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 data-i18n="edit_member_title">Edit Member Name</h3>
+      <div class="modal-body">
+        <input id="edit-member-input" type="text" maxlength="30" required />
+      </div>
+      <div class="modal-footer">
+        <button id="modal-edit-member-cancel" class="btn-secondary" data-i18n="cancel">Cancel</button>
+        <button id="modal-edit-member-save" class="btn-primary" data-i18n="save">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Modal: Delete Member -->
+  <div id="modal-delete-member" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 data-i18n="delete_member_title">Delete Member</h3>
+      <p class="modal-text" data-i18n="confirm_delete_member">Delete this member? This will clear all their related payments and expenses.</p>
+      <div class="modal-footer">
+        <button id="modal-delete-member-cancel" class="btn-secondary" data-i18n="cancel">Cancel</button>
+        <button id="modal-delete-member-confirm" class="btn-danger" data-i18n="delete">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Modal: Edit Category -->
+  <div id="modal-edit-category" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 data-i18n="edit_category_title">Edit Category Name</h3>
+      <div class="modal-body">
+        <input id="edit-category-input" type="text" maxlength="30" required />
+      </div>
+      <div class="modal-footer">
+        <button id="modal-edit-category-cancel" class="btn-secondary" data-i18n="cancel">Cancel</button>
+        <button id="modal-edit-category-save" class="btn-primary" data-i18n="save">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Modal: Delete Category -->
+  <div id="modal-delete-category" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 data-i18n="delete_category_title">Delete Category</h3>
+      <p class="modal-text" data-i18n="confirm_delete_category">Delete this category?</p>
+      <div class="modal-footer">
+        <button id="modal-delete-category-cancel" class="btn-secondary" data-i18n="cancel">Cancel</button>
+        <button id="modal-delete-category-confirm" class="btn-danger" data-i18n="delete">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Modal: Delete Expense -->
+  <div id="modal-delete-expense" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 data-i18n="delete_expense_title">Delete Expense</h3>
+      <p class="modal-text" data-i18n="confirm_delete_expense">Are you sure you want to delete this expense?</p>
+      <div class="modal-footer">
+        <button id="modal-delete-expense-cancel" class="btn-secondary" data-i18n="cancel">Cancel</button>
+        <button id="modal-delete-expense-confirm" class="btn-danger" data-i18n="delete">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
